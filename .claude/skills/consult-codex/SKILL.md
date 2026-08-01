@@ -204,6 +204,7 @@ echo "TIMEOUT_CMD=$TIMEOUT_CMD"   # substitute into the §Step-2 Codex dispatch 
   Parse `$PROJECT_DIR/tmp/codex-output-RUN_ID.jsonl` with the §2a recipes.
 
 - **For Code-Searcher:** Use Agent tool with `subagent_type: "code-searcher"` with the same enhanced prompt (plus the orchestrator-gated Severity block above on defect-hunt runs)
+  - **No sub-agent fan-out — append this VERBATIM to the code-searcher prompt:** "**Do this analysis YOURSELF — do NOT spawn sub-agents.** Do not use the Agent/Task tool to fan out to `code-searcher`, `Explore`, `general-purpose`, or any other subagent; use Read/Grep/Glob/Bash directly, however many calls that takes." Code-searcher runs with all tools and fans out unprompted on Sonnet 5 (reported live 2026-08-01); a sub-agent inherits none of this run's constraints, and the Agent-tool call carries no dispatch watchdog — a stalled fan-out underneath it stalls the whole consult. (`consult-panel` §1d carries the full form of this guard.)
 
 This parallel execution significantly improves response time.
 
